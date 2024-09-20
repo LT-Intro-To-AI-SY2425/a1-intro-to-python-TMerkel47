@@ -14,7 +14,6 @@ check, if you do not complete the generative AI portion of the assignment.
 
 from typing import List, TypeVar
 
-
 def absolute(n: int) -> int:
     """Gives the absolute value of the passed in number. Cannot use the built in
     function `abs`.
@@ -25,8 +24,7 @@ def absolute(n: int) -> int:
     Returns:
         the absolute value of the passed in number
     """
-    raise NotImplementedError("absolute")
-
+    return -1 * n if n < 0 else n
 
 def factorial(n: int) -> int:
     """Takes a number n, and computes the factorial n! You can assume the passed in
@@ -38,8 +36,11 @@ def factorial(n: int) -> int:
     Returns:
         factorial of the passed in number
     """
-    raise NotImplementedError("factorial")
-
+    result = 1
+    for x in range(1, n + 1):
+        result *= x
+    print (result)
+    return result
 
 T = TypeVar("T")
 
@@ -55,8 +56,17 @@ def every_other(lst: List[T]) -> List[T]:
     Returns:
         a list of every of other item in the original list starting with the first
     """
-    raise NotImplementedError("every_other")
-
+    return lst[::2]
+    
+    #new_lst = []
+    #for i in range(len(lst)):
+        #if i % 2 == 0:
+            #new_lst.append(lst[i])
+    
+    #new_lst = []
+    #for i in range(0, len(lst), 2):
+        #new_lst.append(lst[i])
+        #return new_list
 
 def sum_list(lst: List[int]) -> int:
     """Takes a list of numbers, and returns the sum of the numbers in that list. Cannot
@@ -68,8 +78,11 @@ def sum_list(lst: List[int]) -> int:
     Returns:
         the sum of the passed in list
     """
-    raise NotImplementedError("sum_list")
-
+    s = 0
+    for el in lst:
+        s += el
+    return s
+    
 
 def mean(lst: List[int]) -> float:
     """Takes a list of numbers, and returns the mean of the numbers.
@@ -80,7 +93,13 @@ def mean(lst: List[int]) -> float:
     Returns:
         the mean of the passed in list
     """
-    raise NotImplementedError("mean")
+    #s = sum_list(lst)
+    #num_values = len(lst)
+    #if lst:
+        #return s/num_values
+    #else:
+        #return 0
+    return sum_list(lst) / len(lst) if lst else 0
 
 
 def median(lst: List[int]) -> float:
@@ -95,7 +114,13 @@ def median(lst: List[int]) -> float:
     Returns:
         the median of the passed in list
     """
-    raise NotImplementedError("median")
+    if len(lst) % 2 == 1:
+        return lst[len(lst)//2]
+    else:
+        in1 = len(lst)//2
+        in2 = in1 - 1
+        return (lst[in1] + lst[in2]) /2
+
 
 
 def duck_duck_goose(lst: List[str]) -> List[str]:
@@ -117,13 +142,18 @@ def duck_duck_goose(lst: List[str]) -> List[str]:
     Returns:
         the resulting list after playing duck duck goose
     """
-    raise NotImplementedError("duck_duck_goose")
-
+    index = 0
+    while len(lst) > 2:
+        index = (index + 2) % len(lst)
+        lst.pop(index)
+    return lst
+    
 
 # this line causes the nested code to be skipped if the file is imported instead of run
 if __name__ == "__main__":
     assert absolute(-1) == 1, "absolute of -1 failed"
     assert factorial(4) == 24, "factorial of 4 failed"
+    assert factorial(5) == 120, "factorial of 5 failed"
     assert every_other([1, 2, 3, 4, 5]) == [
         1,
         3,
@@ -131,9 +161,13 @@ if __name__ == "__main__":
     ], "every_other of [1,2,3,4,5] failed"
     assert sum_list([1, 2, 3]) == 6, "sum_list of [1,2,3] failed"
     assert mean([1, 2, 3, 4, 5]) == 3, "mean of [1,2,3,4,5] failed"
+    assert mean([]) == 0, "mean of [] failed"
+    assert mean([1, 2, 3, 4, 5, 6]) == 3.5, "mean of [1,2,3,4,5,6] failed"
     assert median([1, 2, 3, 4, 5]) == 3, "median of [1,2,3,4,5] failed"
+    assert median([1, 2, 3, 4, 5, 6]) == 3.5, "median of [1,2,3,4,5,6] failed"
 
-    names = ["roscoe", "kim", "woz", "solin", "law", "remess"]
-    assert duck_duck_goose(names) == ["roscoe", "law"]
-
+    name = ["roscoe", "kim", "woz", "solin", "law", "remess"]
+    assert duck_duck_goose(name) == ["roscoe", "law"]
+    name = ["roscoe", "solin", "law", "remess"]
+    assert duck_duck_goose(name) == ["roscoe", "remess"]
     print("All tests passed!")
